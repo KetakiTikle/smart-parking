@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Admin')}"></head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+<main class="container">
+    <h1>Admin dashboard</h1>
+    <p class="muted">Parking lot overview (reports and slot management are planned for a future sprint).</p>
+    <table>
+        <thead><tr><th>Lot</th><th>Location</th><th>Price / hour</th><th>Free now</th></tr></thead>
+        <tbody>
+        <tr th:each="l : ${lots}">
+            <td th:text="${l.name}"></td>
+            <td th:text="${l.location}"></td>
+            <td th:text="'Rs. ' + ${l.pricePerHour}"></td>
+            <td th:text="${l.availableNow} + ' / ' + ${l.totalSlots}"></td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

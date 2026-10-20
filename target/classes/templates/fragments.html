@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${title} + ' | Smart Parking'">Smart Parking</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav class="navbar" th:fragment="navbar">
+    <a class="brand" th:href="@{/}">Smart Parking</a>
+    <div>
+        <th:block th:if="${session.userId != null}">
+            <a th:href="@{/search}">Search</a>
+            <a th:href="@{/bookings}">My Bookings</a>
+            <a th:if="${session.role == 'ADMIN'}" th:href="@{/admin}">Admin</a>
+            <span class="user" th:text="${session.userName}">User</span>
+            <form th:action="@{/logout}" method="post" class="inline">
+                <button type="submit" class="btn-link">Logout</button>
+            </form>
+        </th:block>
+        <th:block th:unless="${session.userId != null}">
+            <a th:href="@{/login}">Login</a>
+            <a th:href="@{/register}">Register</a>
+        </th:block>
+    </div>
+</nav>
+</body>
+</html>

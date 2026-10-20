@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Slots')}"></head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+<main class="container">
+    <div class="card">
+        <h1 th:text="${lot.name}">Lot</h1>
+        <p th:text="${lot.address} + ' | Rs. ' + ${lot.pricePerHour} + ' per hour'"></p>
+        <p><strong th:text="${lot.availableNow} + ' of ' + ${lot.totalSlots} + ' slots free right now'"></strong></p>
+        <p class="muted">Status shows availability right now. A free slot may still have bookings later; the system checks your chosen time when you reserve.</p>
+        <a th:href="@{/search}">&larr; Back to search</a>
+    </div>
+
+    <div class="slot-grid">
+        <div th:each="s : ${slots}" class="slot"
+             th:classappend="${s.displayStatus == 'FREE'} ? 'free' : (${s.displayStatus == 'BOOKED'} ? 'booked' : 'maint')">
+            <strong th:text="${s.slotNumber}">S01</strong>
+            <span th:text="${s.displayStatus}">FREE</span>
+            <a th:if="${s.displayStatus == 'FREE'}" class="btn small" th:href="@{/reserve/{id}(id=${s.slotId})}">Reserve</a>
+        </div>
+    </div>
+</main>
+</body>
+</html>

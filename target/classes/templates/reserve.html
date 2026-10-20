@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Reserve Slot')}"></head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+<main class="container narrow">
+    <div class="card">
+        <h1>Reserve slot <span th:text="${slot.slotNumber}">S01</span></h1>
+        <p><strong th:text="${lot.name}"></strong><br>
+           <span class="muted" th:text="'Rs. ' + ${lot.pricePerHour} + ' per hour'"></span></p>
+        <p class="alert error" th:if="${error != null}" th:text="${error}"></p>
+
+        <form th:action="@{/reserve/{id}(id=${slot.slotId})}" method="post" novalidate>
+            <label for="vehicleNo">Vehicle number</label>
+            <input id="vehicleNo" name="vehicleNo" type="text" th:value="${vehicleNo}" placeholder="MH31AB1234">
+
+            <label for="start">Start date and time</label>
+            <input id="start" name="start" type="datetime-local" th:value="${start}">
+
+            <label for="hours">Duration in hours (1-12)</label>
+            <input id="hours" name="hours" type="text" th:value="${hours}">
+
+            <button type="submit">Confirm reservation</button>
+        </form>
+        <p class="muted">Payment is not part of this module. The total cost is calculated and shown after booking.</p>
+        <a th:href="@{/lots/{id}/slots(id=${lot.lotId})}">&larr; Back to slots</a>
+    </div>
+</main>
+</body>
+</html>

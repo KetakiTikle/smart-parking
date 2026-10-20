@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Search Parking')}"></head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+<main class="container">
+    <div class="card">
+        <h1>Find parking</h1>
+        <form th:action="@{/search}" method="get" class="inline-form" novalidate>
+            <input type="text" name="q" th:value="${q}" placeholder="Location or lot name, e.g. Sitabuldi, Dharampeth, Sadar, Civil Lines">
+            <button type="submit">Search</button>
+        </form>
+        <p class="alert error" th:if="${error != null}" th:text="${error}"></p>
+    </div>
+
+    <th:block th:if="${searched}">
+        <p class="alert info" th:if="${#lists.isEmpty(lots)}" th:text='|No parking lots found for "${q}".|'></p>
+        <table th:unless="${#lists.isEmpty(lots)}">
+            <thead>
+            <tr><th>Lot</th><th>Location</th><th>Address</th><th>Price / hour</th><th>Free now</th><th></th></tr>
+            </thead>
+            <tbody>
+            <tr th:each="l : ${lots}">
+                <td th:text="${l.name}"></td>
+                <td th:text="${l.location}"></td>
+                <td th:text="${l.address}"></td>
+                <td th:text="'Rs. ' + ${l.pricePerHour}"></td>
+                <td><span class="badge" th:classappend="${l.availableNow > 0} ? 'free' : 'full'"
+                          th:text="${l.availableNow} + ' / ' + ${l.totalSlots}"></span></td>
+                <td><a class="btn small" th:href="@{/lots/{id}/slots(id=${l.lotId})}">View slots</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </th:block>
+</main>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Register')}"></head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+<main class="container narrow">
+    <div class="card">
+        <h1>Create your account</h1>
+        <form th:action="@{/register}" method="post" novalidate>
+            <label for="name">Full name</label>
+            <input id="name" name="name" type="text" th:value="${form['name']}">
+            <small class="error" th:if="${errors['name'] != null}" th:text="${errors['name']}"></small>
+
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" th:value="${form['email']}">
+            <small class="error" th:if="${errors['email'] != null}" th:text="${errors['email']}"></small>
+
+            <label for="phone">Phone (10 digits)</label>
+            <input id="phone" name="phone" type="text" th:value="${form['phone']}">
+            <small class="error" th:if="${errors['phone'] != null}" th:text="${errors['phone']}"></small>
+
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password">
+            <small class="muted">8-20 characters with uppercase, lowercase, digit and special character.</small>
+            <small class="error" th:if="${errors['password'] != null}" th:text="${errors['password']}"></small>
+
+            <label for="confirmPassword">Confirm password</label>
+            <input id="confirmPassword" name="confirmPassword" type="password">
+            <small class="error" th:if="${errors['confirmPassword'] != null}" th:text="${errors['confirmPassword']}"></small>
+
+            <button type="submit">Register</button>
+        </form>
+        <p class="muted">Already registered? <a th:href="@{/login}">Log in</a></p>
+    </div>
+</main>
+</body>
+</html>

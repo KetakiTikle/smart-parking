@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('My Bookings')}"></head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+<main class="container">
+    <h1>My bookings</h1>
+    <p class="alert success" th:if="${success != null}" th:text="${success}"></p>
+    <p class="alert error" th:if="${error != null}" th:text="${error}"></p>
+    <p class="alert info" th:if="${#lists.isEmpty(bookings)}">You have no bookings yet. <a th:href="@{/search}">Find parking</a></p>
+
+    <table th:unless="${#lists.isEmpty(bookings)}">
+        <thead>
+        <tr><th>ID</th><th>Lot</th><th>Slot</th><th>Vehicle</th><th>From</th><th>To</th><th>Cost</th><th>Status</th><th></th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="r : ${bookings}">
+            <td th:text="'#' + ${r.reservationId}"></td>
+            <td th:text="${r.lotName}"></td>
+            <td th:text="${r.slotNumber}"></td>
+            <td th:text="${r.vehicleNo}"></td>
+            <td th:text="${#temporals.format(r.startTime, 'dd MMM yyyy, hh:mm a')}"></td>
+            <td th:text="${#temporals.format(r.endTime, 'dd MMM yyyy, hh:mm a')}"></td>
+            <td th:text="'Rs. ' + ${r.totalAmount}"></td>
+            <td><span th:class="'badge st-' + ${#strings.toLowerCase(r.displayStatus)}" th:text="${r.displayStatus}"></span></td>
+            <td>
+                <form th:if="${r.cancellable}" th:action="@{/bookings/{id}/cancel(id=${r.reservationId})}" method="post"
+                      onsubmit="return confirm('Cancel this booking?');">
+                    <button type="submit" class="btn danger small">Cancel</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>
