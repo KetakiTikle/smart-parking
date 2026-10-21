@@ -23,6 +23,7 @@ class ValidationUtilTest {
 
     // ---------------- Email (Equivalence Partitioning) ----------------
     @Test void email_valid() { assertNull(ValidationUtil.validateEmail("ketaki@example.com")); }
+    @Test void email_consecutiveDots_invalid() { assertNotNull(ValidationUtil.validateEmail("ketaki..tikle@example.com")); }
     @ParameterizedTest
     @ValueSource(strings = {"", "ketaki.example.com", "ketaki@", "@example.com", "ketaki@example", "a b@example.com"})
     void email_invalid(String email) { assertNotNull(ValidationUtil.validateEmail(email)); }
