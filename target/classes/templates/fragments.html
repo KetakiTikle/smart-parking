@@ -6,8 +6,6 @@
     <title th:text="${title} + ' | Smart Parking'">Smart Parking</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <script>
-        // If the browser restores this page from its back/forward cache,
-        // reload it so the server checks the session again.
         window.addEventListener('pageshow', function (event) {
             if (event.persisted) { window.location.reload(); }
         });
